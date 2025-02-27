@@ -1,14 +1,22 @@
 require('dotenv').config();
-import { Sequelize } from "sequelize";
-import { PostgresDialect } from "@sequelize/postgres";
+const { Sequelize } = require('sequelize');
+const PostgresDialect = 'postgres';
 
-const db = new Sequelize({
+const db = new Sequelize( process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
     dialect: PostgresDialect,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
     host: process.env.DB_HOST,
     port: 5432,
-})
+});
 
+const connection = () => {
+    db.authenticate()
+    .then(() => {
+        console.log('Conexion a base de datos exitosa')
+    })
+    .catch( err => {
+        console.error('Error en conexion a base de datos', err.message)
+    })
+}
+
+connection();
 module.exports = db;

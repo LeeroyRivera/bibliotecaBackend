@@ -1,25 +1,22 @@
 require('dotenv').config();
 const express = require('express');
-const { Pool } = require('pg');
-
+const db = require('./db')
 const app = express();
+const modeloUsuario = require('./modelos/usuarios');
 const port = process.env.PORT || 3000;
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port: 5432, // Puerto por defecto de PostgreSQL
-});
+db.sync().then(() => {
+  console.log('Base de datos sincronizada');
+  
+  //raw: true envia objetos planos en lugar de instancias de Sequelize
+  modeloUsuario.findAll({ raw: true }).then((usuarios) => {
+    console.log('Usuarios: ', usuarios);
+  }).catch((err) => {
+    console.error('Error en obtener usuarios: ', err.message);
+  });
 
-app.get('/', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT NOW()');
-    res.json({ message: 'Servidor funcionando', time: result.rows[0] });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+}).catch((err) => {
+  console.error('Error en sincronizar a base de datos: ', err.message);
 });
 
 app.listen(port, () => {
