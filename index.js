@@ -12,6 +12,62 @@ const pool = new Pool({
   password: process.env.DB_PASS,
   port: 5432, // Puerto por defecto de PostgreSQL
 });
+app.get('/usuarios/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const result = await pool.query('SELECT * FROM "usuarios" WHERE "usuariosID" = $1', [id]);
+      if (result.rows.length === 0) {
+          return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+      res.json(result.rows[0]);
+  } catch (error) {
+      console.error('Error obteniendo usuario:', error);
+      res.status(500).json({ error: 'Error obteniendo usuario' });
+  }
+});
+
+
+app.get('/libros/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const result = await pool.query('SELECT * FROM "libros" WHERE "librosID" = $1', [id]);
+      if (result.rows.length === 0) {
+          return res.status(404).json({ error: 'Libro no encontrado' });
+      }
+      res.json(result.rows[0]);
+  } catch (error) {
+      console.error('Error obteniendo libro:', error);
+      res.status(500).json({ error: 'Error obteniendo libro' });
+  }
+});
+
+app.get('/prestamos/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const result = await pool.query(`
+          SELECT 
+              p."prestamosID",
+              u."usuariosNombre",
+              u."usuariosCorreo",
+              l."librosTitulo",
+              l."librosGenero",
+              p."prestamosFechaInicial",
+              p."prestamosFechaDevolucion"
+          FROM "prestamos" p
+          JOIN "usuarios" u ON p."usuarios_ID" = u."usuariosID"
+          JOIN "libros" l ON p."libros_ID" = l."librosID"
+          WHERE p."prestamosID" = $1
+      `, [id]);
+
+      if (result.rows.length === 0) {
+          return res.status(404).json({ error: 'Préstamo no encontrado' });
+      }
+      res.json(result.rows[0]);
+  } catch (error) {
+      console.error('Error obteniendo préstamo:', error);
+      res.status(500).json({ error: 'Error obteniendo préstamo' });
+  }
+});
 
 app.get('/', async (req, res) => {
   try {
