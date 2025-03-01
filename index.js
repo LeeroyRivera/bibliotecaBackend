@@ -81,16 +81,44 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.delete('/productos/:id', async (req, res) => {
+app.delete('/prestamos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM "productos" WHERE "id" = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM "prestamos" WHERE "id" = $1 RETURNING *', [id]);
 
     if (result.rowCount === 0) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
+      return res.status(404).json({ message: 'Prestamo no encontrado' });
     }
 
-    res.json({ message: 'Producto eliminado', deletedProduct: result.rows[0] });
+    res.json({ message: 'Prestamo eliminado', deletedProduct: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.delete('/libros/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('DELETE FROM "libros" WHERE "id" = $1 RETURNING *', [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    res.json({ message: 'Libro eliminado', deletedProduct: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.delete('/usuarios/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('DELETE FROM "usuarios" WHERE "id" = $1 RETURNING *', [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.json({ message: 'Usuario eliminado', deletedProduct: result.rows[0] });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
