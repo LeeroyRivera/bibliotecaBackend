@@ -5,6 +5,9 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -12,6 +15,7 @@ const pool = new Pool({
   password: process.env.DB_PASS,
   port: 5432, // Puerto por defecto de PostgreSQL
 });
+
 app.get('/usuarios/:id', async (req, res) => {
   try {
       const { id } = req.params;
@@ -25,7 +29,6 @@ app.get('/usuarios/:id', async (req, res) => {
       res.status(500).json({ error: 'Error obteniendo usuario' });
   }
 });
-
 
 app.get('/libros/:id', async (req, res) => {
   try {
@@ -77,10 +80,11 @@ app.get('/', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 app.delete('/productos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM productos WHERE id = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM "productos" WHERE "id" = $1 RETURNING *', [id]);
 
     if (result.rowCount === 0) {
       return res.status(404).json({ message: 'Producto no encontrado' });
@@ -92,14 +96,14 @@ app.delete('/productos/:id', async (req, res) => {
   }
 });
 
-//Put
+// Put route for libros
 app.put('/libros/:id', async (req, res) => {
   const { id } = req.params;
   const { librosTitulo, librosGenero, librosFechaPublicacion } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE libros SET librosTitulo = $1, librosGenero = $2, librosFechaPublicacion = $3 WHERE librosID = $4 RETURNING *',
+      'UPDATE "libros" SET "librosTitulo" = $1, "librosGenero" = $2, "librosFechaPublicacion" = $3 WHERE "librosID" = $4 RETURNING *',
       [librosTitulo, librosGenero, librosFechaPublicacion, id]
     );
 
@@ -113,13 +117,14 @@ app.put('/libros/:id', async (req, res) => {
   }
 });
 
+// Put route for usuarios
 app.put('/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   const { usuariosNombre, usuariosCorreo, usuariosTelefono } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE usuarios SET usuariosNombre = $1, usuariosCorreo = $2, usuariosTelefono = $3 WHERE usuariosID = $4 RETURNING *',
+      'UPDATE "usuarios" SET "usuariosNombre" = $1, "usuariosCorreo" = $2, "usuariosTelefono" = $3 WHERE "usuariosID" = $4 RETURNING *',
       [usuariosNombre, usuariosCorreo, usuariosTelefono, id]
     );
 
@@ -133,13 +138,14 @@ app.put('/usuarios/:id', async (req, res) => {
   }
 });
 
+// Put route for prestamos
 app.put('/prestamos/:id', async (req, res) => {
   const { id } = req.params;
   const { libros_ID, usuarios_ID, prestamosFechaInicial, prestamosFechaDevolucion } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE prestamos SET libros_ID = $1, usuarios_ID = $2, prestamosFechaInicial = $3, prestamosFechaDevolucion = $4 WHERE prestamosID = $5 RETURNING *',
+      'UPDATE "prestamos" SET "libros_ID" = $1, "usuarios_ID" = $2, "prestamosFechaInicial" = $3, "prestamosFechaDevolucion" = $4 WHERE "prestamosID" = $5 RETURNING *',
       [libros_ID, usuarios_ID, prestamosFechaInicial, prestamosFechaDevolucion, id]
     );
 
