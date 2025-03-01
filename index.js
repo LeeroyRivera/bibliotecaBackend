@@ -81,6 +81,45 @@ app.get('/', async (req, res) => {
   }
 });
 
+app.post('/libros', async (req, res) => {
+  const { librosTitulo, librosGenero, librosFechaPublicacion } = req.body;
+  try {
+      const result = await pool.query(
+          'INSERT INTO libros ("librosTitulo", "librosGenero", "librosFechaPublicacion") VALUES ($1, $2, $3) RETURNING *',
+          [librosTitulo, librosGenero, librosFechaPublicacion]
+      );
+      res.status(201).json(result.rows[0]);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/usuarios', async (req, res) => {
+  const { usuariosNombre, usuariosCorreo, usuariosTelefono } = req.body;
+  try {
+      const result = await pool.query(
+          'INSERT INTO usuarios ("usuariosNombre", "usuariosCorreo", "usuariosTelefono") VALUES ($1, $2, $3) RETURNING *',
+          [usuariosNombre, usuariosCorreo, usuariosTelefono]
+      );
+      res.status(201).json(result.rows[0]);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/prestamos', async (req, res) => {
+  const { libros_ID, usuarios_ID, prestamosFechaInicial, prestamosFechaDevolucion } = req.body;
+  try {
+      const result = await pool.query(
+          'INSERT INTO prestamos ("libros_ID", "usuarios_ID", "prestamosFechaInicial", "prestamosFechaDevolucion") VALUES ($1, $2, $3, $4) RETURNING *',
+          [libros_ID, usuarios_ID, prestamosFechaInicial, prestamosFechaDevolucion]
+      );
+      res.status(201).json(result.rows[0]);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+});
+
 app.delete('/prestamos/:id', async (req, res) => {
   const { id } = req.params;
   try {
