@@ -123,7 +123,7 @@ app.post('/prestamos', async (req, res) => {
 app.delete('/prestamos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM "prestamos" WHERE "id" = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM "prestamos" WHERE "prestamosID" = $1 RETURNING *', [id]);
 
     if (result.rowCount === 0) {
       return res.status(404).json({ message: 'Prestamo no encontrado' });
@@ -137,7 +137,7 @@ app.delete('/prestamos/:id', async (req, res) => {
 app.delete('/libros/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM "libros" WHERE "id" = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM "libros" WHERE "librosID" = $1 RETURNING *', [id]);
 
     if (result.rowCount === 0) {
       return res.status(404).json({ message: 'Libro no encontrado' });
@@ -151,7 +151,7 @@ app.delete('/libros/:id', async (req, res) => {
 app.delete('/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM "usuarios" WHERE "id" = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM "usuarios" WHERE "usuariosID" = $1 RETURNING *', [id]);
 
     if (result.rowCount === 0) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
