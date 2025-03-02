@@ -56,7 +56,7 @@ exports.putUsuarios = async (req, res) => {
             return enviarRespuesta(res, { msg: "Usuario no encontrado" });
         }
 
-        // Mezcla los datos existentes con los nuevos datos del formulario realizando un
+        // Mezcla los datos existentes con los nuevos datos del formulario
         const usuarioActualizado = { ...usuario.toJSON(), ...req.body };
 
         // Actualiza el usuario con los datos mezclados
@@ -69,5 +69,30 @@ exports.putUsuarios = async (req, res) => {
     } catch (error) {
         // Enviar respuesta con el error si no se pudo actualizar el registro
         enviarRespuesta(res, { msg: "Error al actualizar registro", error: error.message });
+    }
+}
+
+exports.deleteUsuarios = async (req, res) => {
+    const errores = validationResult(req);
+    if (!errores.isEmpty()) {
+        const ers = errores.array().map(error => ({ campo: error.param, mensaje: error.msg }));
+        return enviarRespuesta(res, ers); // Enviar respuesta con los errores
+    }
+
+    try {
+        // Busca el usuario por ID
+        const usuario = await modeloUsuario.findOne({ where: { usuariosID: req.params.id } });
+        if (!usuario) {
+            return enviarRespuesta(res, { msg: "Usuario no encontrado" });
+        }
+
+        // Elimina el usuario
+        await modeloUsuario.destroy({ where: { usuariosID: req.params.id } });
+
+        // Enviar respuesta con el usuario eliminado
+        enviarRespuesta(res, { msg: "Registro eliminado correctamente", data: usuario });
+    } catch (error) {
+        // Enviar respuesta con el error si no se pudo eliminar el registro
+        enviarRespuesta(res, { msg: "Error al eliminar registro", error: error.message });
     }
 }
