@@ -29,6 +29,10 @@ app.post('/usuarios', usuarioValidaciones(), async (req, res) => {
   await controladorUsuarios.postUsuarios(req, res);
 });
 
+app.put('/usuarios/:id', async (req, res) => {
+  await controladorUsuarios.putUsuarios(req, res);
+});
+
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });

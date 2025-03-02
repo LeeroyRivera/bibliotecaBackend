@@ -6,7 +6,7 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.D
     dialect: PostgresDialect,
     host: process.env.DB_HOST,
     port: 5432,
-    logging: false // Desactiva los logs de las consultas SQL
+    logging: false // Disable logging
 });
 
 const connection = () => {
