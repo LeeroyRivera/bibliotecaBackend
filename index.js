@@ -2,8 +2,18 @@ require('dotenv').config();
 const express = require('express');
 const db = require('./db');
 const app = express();
+
 const controladorUsuarios = require('./controladores/controladorUsuarios');
+const controladorLibros = require('./controladores/controladorLibros');
+const controladorPrestamos = require('./controladores/controladorPrestamos');
+
+const { usuarioValidaciones } = require('./validaciones/usuarioValidaciones');
+const { libroValidaciones } = require('./validaciones/libroValidaciones');
+const { prestamoValidaciones } = require('./validaciones/prestamoValidaciones');
+
 const port = process.env.PORT || 3000;
+
+app.use(express.json());
 
 db.sync().then(() => {
   console.log('Base de datos sincronizada');
@@ -11,9 +21,12 @@ db.sync().then(() => {
   console.log('Error al sincronizar la base de datos: ', error);
 });
 
-// Define the route to get users
 app.get('/usuarios', async (req, res) => {
   await controladorUsuarios.getUsuarios(req, res);
+});
+
+app.post('/usuarios', usuarioValidaciones(), async (req, res) => {
+  await controladorUsuarios.postUsuarios(req, res);
 });
 
 app.listen(port, () => {
