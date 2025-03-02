@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const modeloLibros = require('../modelos/libros');
 const { validationResult } = require('express-validator');
+const { libroValidaciones } = require('../validaciones/libroValidaciones');
 
 function enviarRespuesta(res, jsonObject) {
     res.statusCode = 200;
@@ -23,6 +24,7 @@ exports.getLibros = async (req, res) => {
 
 exports.postLibros = async (req, res) => {
     // Valida los campos del formulario
+    await Promise.all(libroValidaciones().map(validation => validation.run(req)));
     const errores = validationResult(req);
     if (!errores.isEmpty()) {
         // Si hay errores, se mapean los errores y se envían como respuesta
@@ -31,9 +33,9 @@ exports.postLibros = async (req, res) => {
     }
 
     try {
-        // Crea un nuevo Libro con los datos del formulario
+        // Crea un nuevo libro con los datos del formulario
         const data = await modeloLibros.create(req.body);
-        // Enviar respuesta con el Libros creado
+        // Enviar respuesta con el libro creado
         enviarRespuesta(res, { msg: "Registro guardado correctamente", data });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo guardar el registro

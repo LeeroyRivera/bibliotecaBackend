@@ -21,7 +21,7 @@ db.sync().then(() => {
   console.log('Error al sincronizar la base de datos: ', error);
 });
 
-
+//usuarios
 
 app.get('/usuarios', async (req, res) => {
   await controladorUsuarios.getUsuarios(req, res);
@@ -41,6 +41,42 @@ app.delete('/usuarios/:id', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
+});
+
+//libros
+
+app.get('/libros', async (req, res) => {
+  await controladorLibros.getLibros(req, res);
+});
+
+app.post('/libros', libroValidaciones(), async (req, res) => {
+  await controladorLibros.postLibros(req, res);
+});
+
+app.put('/libros/:id', libroValidaciones(), async (req, res) => {
+  await controladorLibros.putLibros(req, res);
+});
+
+app.delete('/libros/:id', async (req, res) => {
+  await controladorLibros.deleteLibros(req, res);
+});
+
+//prestamos
+
+app.get('/prestamos', async (req, res) => {
+  await controladorPrestamos.getPrestamos(req, res);
+});
+
+app.post('/prestamos', prestamoValidaciones(), async (req, res) => {
+  await controladorPrestamos.postPrestamos(req, res);
+});
+
+app.put('/prestamos/:id', prestamoValidaciones(), async (req, res) => {
+  await controladorPrestamos.putPrestamos(req, res);
+});
+
+app.delete('/prestamos/:id', async (req, res) => {
+  await controladorPrestamos.deletePrestamos(req, res);
 });
 
 app.get('/', (req, res) => {
