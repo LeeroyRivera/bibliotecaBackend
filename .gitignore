@@ -1,6 +1,7 @@
 # build files
 node_modules/
 *git.json
+*.env
 
 # temp files
 pids
@@ -27,4 +28,3 @@ lib-cov
 *.pid
 *.gz
 *.iml
-*.env
