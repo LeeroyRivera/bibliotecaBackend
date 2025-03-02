@@ -21,6 +21,8 @@ db.sync().then(() => {
   console.log('Error al sincronizar la base de datos: ', error);
 });
 
+
+
 app.get('/usuarios', async (req, res) => {
   await controladorUsuarios.getUsuarios(req, res);
 });
