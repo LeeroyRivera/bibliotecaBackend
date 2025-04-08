@@ -37,9 +37,8 @@ const Prestamo = db.define(
             allowNull: false,
         },
         prestamosEstado: {
-            type: sequelize.ENUM('Pendiente', 'Devuelto', 'Atrasado'),
-            defaultValue: 'Pendiente',
-            defaultValue: true,
+            type: sequelize.BOOLEAN,
+            defaultValue: false, 
             allowNull: false,
         },
     },

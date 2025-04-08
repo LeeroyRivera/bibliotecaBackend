@@ -1,4 +1,5 @@
 const sequelize = require('sequelize');
+const { DataTypes } = sequelize;
 const db = require('../db');
 
 const Usuario = db.define(
@@ -23,14 +24,14 @@ const Usuario = db.define(
             allowNull: false,
         },
         usuariosCreacion: {
-            type: sequelize.DATE,
-            defaultValue: sequelize.DataTypes.NOW,
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false,
         },
         usuariosEstado: {
             type: sequelize.BOOLEAN,
             defaultValue: true,
-            allowNull: false,
+
         },
     },
     {

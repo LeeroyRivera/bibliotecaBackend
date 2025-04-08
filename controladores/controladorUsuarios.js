@@ -26,7 +26,8 @@ exports.getUsuariosLogin = async (req, res) => {
         await modeloUsuario.findAll({
             where: {
                 usuariosCorreo: req.params.correo,
-                usuariosContra: req.params.contra
+                usuariosContra: req.params.contra,
+                usuariosEstado: true
             },
             raw: true
         })

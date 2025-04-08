@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-db.sync({ alter: true}).then(() => {
+db.sync().then(() => {
   console.log('Base de datos sincronizada');
 }).catch((error) => {
   console.log('Error al sincronizar la base de datos: ', error);
