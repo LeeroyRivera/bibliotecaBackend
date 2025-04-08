@@ -21,10 +21,22 @@ db.sync().then(() => {
   console.log('Error al sincronizar la base de datos: ', error);
 });
 
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
+});
+
 //usuarios
 
 app.get('/usuarios', async (req, res) => {
   await controladorUsuarios.getUsuarios(req, res);
+});
+
+app.get('/usuarios/:id', async (req, res) => {
+  await controladorUsuarios.getUsuariosID(req, res);
+});
+
+app.get('/usuarios/:correo/:contra', async (req, res) => {
+  await controladorUsuarios.getUsuariosLogin(req, res);
 });
 
 app.post('/usuarios', usuarioValidaciones(), async (req, res) => {
@@ -35,18 +47,18 @@ app.put('/usuarios/:id', usuarioValidaciones(), async (req, res) => {
   await controladorUsuarios.putUsuarios(req, res);
 });
 
-app.delete('/usuarios/:id', async (req, res) => {
-  await controladorUsuarios.deleteUsuarios(req, res);
-});
-
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-});
-
 //libros
 
 app.get('/libros', async (req, res) => {
   await controladorLibros.getLibros(req, res);
+});
+
+app.get('/libros-titulo/:titulo', async (req, res) => {
+  await controladorLibros.getLibrosTitulo(req, res);
+});
+
+app.get('/libros-genero/:genero', async (req, res) => {
+  await controladorLibros.getLibrosGenero(req, res);
 });
 
 app.post('/libros', libroValidaciones(), async (req, res) => {
@@ -79,7 +91,7 @@ app.delete('/prestamos/:id', async (req, res) => {
   await controladorPrestamos.deletePrestamos(req, res);
 });
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
   res.send(`<!DOCTYPE html>
     <html lang="es">
     <head>
@@ -112,4 +124,4 @@ app.get('/', (req, res) => {
         </div>
     </body>
     </html>`);
-});
+});*/

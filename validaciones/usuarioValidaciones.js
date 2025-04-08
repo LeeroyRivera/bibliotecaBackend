@@ -7,9 +7,10 @@ const usuarioValidaciones = () => {
         body('usuariosCorreo')
             .isEmail().withMessage('Debe ser un correo válido')
             .normalizeEmail(),
-        body('usuariosTelefono')
-            .isNumeric().withMessage('El teléfono debe contener solo números')
-            .isLength({ min: 8, max: 8 }).withMessage('El teléfono debe tener 8 caracteres')
+        body('usuariosContra')
+            .notEmpty().withMessage('La contraseña es obligatoria')
+            .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres')
+            .matches(/\d/).withMessage('La contraseña debe contener al menos un número')
     ];
 };
 

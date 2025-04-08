@@ -21,24 +21,44 @@ exports.getUsuarios = async (req, res) => {
     }
 }
 
+exports.getUsuariosID = async (req, res) => {
+    try {
+        await modeloUsuario.findOne({
+            where: {
+                usuariosID: req.params.id
+            },
+            raw: true
+        })
+        .then((data) => {
+            if (data) {
+                enviarRespuesta(res, data);
+            } else {
+                enviarRespuesta(res, { msg: "Usuario no encontrado" });
+            }
+        });
+    }catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+}
+
 exports.getUsuariosLogin = async (req, res) => {
     try {
-        await modeloUsuario.findAll({
+        const data = await modeloUsuario.findOne({
             where: {
                 usuariosCorreo: req.params.correo,
                 usuariosContra: req.params.contra,
                 usuariosEstado: true
             },
             raw: true
-        })
-        .then((data) => {
-            if (data.length > 0) {
-                enviarRespuesta(res, data);
-            } else {
-                enviarRespuesta(res, { msg: "Usuario o contraseña incorrectos" });
-            }
         });
-    }catch (error) {
+
+        if (data) {
+            enviarRespuesta(res, data);
+        } else {
+            enviarRespuesta(res, { msg: "Usuario o contraseña incorrectos" });
+        }
+    } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
