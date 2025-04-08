@@ -18,8 +18,18 @@ const Usuario = db.define(
             type: sequelize.STRING,
             allowNull: false,
         },
-        usuariosTelefono: {
+        usuariosContra: {
             type: sequelize.STRING,
+            allowNull: false,
+        },
+        usuariosCreacion: {
+            type: sequelize.DATE,
+            defaultValue: sequelize.DataTypes.NOW,
+            allowNull: false,
+        },
+        usuariosEstado: {
+            type: sequelize.BOOLEAN,
+            defaultValue: true,
             allowNull: false,
         },
     },

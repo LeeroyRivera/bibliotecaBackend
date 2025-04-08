@@ -36,6 +36,12 @@ const Prestamo = db.define(
             type: sequelize.DATE,
             allowNull: false,
         },
+        prestamosEstado: {
+            type: sequelize.ENUM('Pendiente', 'Devuelto', 'Atrasado'),
+            defaultValue: 'Pendiente',
+            defaultValue: true,
+            allowNull: false,
+        },
     },
     {
         timestamps: false // Disable automatic timestamps

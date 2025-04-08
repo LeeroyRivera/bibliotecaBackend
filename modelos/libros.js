@@ -14,12 +14,24 @@ const Libro = db.define(
             type: sequelize.STRING,
             allowNull: false,
         },
+        librosAutor: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
         librosGenero: {
             type: sequelize.STRING,
             allowNull: false,
         },
         librosFechaPublicacion: {
             type: sequelize.DATE,
+            allowNull: false,
+        },
+        librosPortada: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+        librosDescripcion: {
+            type: sequelize.STRING,
             allowNull: false,
         },
     },

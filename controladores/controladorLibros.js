@@ -22,6 +22,61 @@ exports.getLibros = async (req, res) => {
     }
 }
 
+exports.getLibrosTitulo = async (req, res) => {
+    try {
+        await modeloLibros.findAll({
+            where: {
+                librosTitulo: {
+                    [Op.like]: `%${req.params.titulo}%`
+                }
+            },
+            raw: true
+        })
+        .then((data) => {
+            enviarRespuesta(res, data);
+        });
+    }catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+exports.getLibrosGenero = async (req, res) => {
+    try {
+        await modeloLibros.findAll({
+            where: {
+                librosGenero: req.params.genero
+            },
+            raw: true
+        })
+        .then((data) => {
+            enviarRespuesta(res, data);
+        });
+    }catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+exports.getLibrosAutor = async (req, res) => {
+    try {
+        await modeloLibros.findAll({
+            where: {
+                librosAutor: {
+                    [Op.like]: `%${req.params.autor}%`
+                }
+            },
+            raw: true
+        })
+        .then((data) => {
+            enviarRespuesta(res, data);
+        });
+    }catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
 exports.postLibros = async (req, res) => {
     // Valida los campos del formulario
     await Promise.all(libroValidaciones().map(validation => validation.run(req)));

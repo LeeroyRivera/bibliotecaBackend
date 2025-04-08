@@ -21,6 +21,28 @@ exports.getUsuarios = async (req, res) => {
     }
 }
 
+exports.getUsuariosLogin = async (req, res) => {
+    try {
+        await modeloUsuario.findAll({
+            where: {
+                usuariosCorreo: req.params.correo,
+                usuariosContra: req.params.contra
+            },
+            raw: true
+        })
+        .then((data) => {
+            if (data.length > 0) {
+                enviarRespuesta(res, data);
+            } else {
+                enviarRespuesta(res, { msg: "Usuario o contraseña incorrectos" });
+            }
+        });
+    }catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
 exports.postUsuarios = async (req, res) => {
     // Valida los campos del formulario
     const errores = validationResult(req);
