@@ -54,7 +54,7 @@ exports.getUsuariosLogin = async (req, res) => {
         });
 
         if (data) {
-            enviarRespuesta(res, {msg: "ok"});
+            enviarRespuesta(res, data);
         } else {
             enviarRespuesta(res, { msg: "Usuario o contraseña incorrectos" });
         }
