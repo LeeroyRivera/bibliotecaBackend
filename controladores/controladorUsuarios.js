@@ -46,15 +46,15 @@ exports.getUsuariosLogin = async (req, res) => {
     try {
         const data = await modeloUsuario.findOne({
             where: {
-                usuariosCorreo: req.params.correo,
-                usuariosContra: req.params.contra,
+                usuariosCorreo: req.body.correo,
+                usuariosContra: req.body.contra,
                 usuariosEstado: true
             },
             raw: true
         });
 
         if (data) {
-            enviarRespuesta(res, data);
+            enviarRespuesta(res, {msg: "ok"});
         } else {
             enviarRespuesta(res, { msg: "Usuario o contraseña incorrectos" });
         }
@@ -77,7 +77,7 @@ exports.postUsuarios = async (req, res) => {
         // Crea un nuevo usuario con los datos del formulario
         const data = await modeloUsuario.create(req.body);
         // Enviar respuesta con el usuario creado
-        enviarRespuesta(res, { msg: "Registro guardado correctamente", data });
+        enviarRespuesta(res, { msg: "ok", data });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo guardar el registro
         enviarRespuesta(res, { msg: "Error al guardar registro", error: error.message });
@@ -108,7 +108,7 @@ exports.putUsuarios = async (req, res) => {
         });
 
         // Enviar respuesta con el usuario actualizado
-        enviarRespuesta(res, { msg: "Registro actualizado correctamente", data: usuarioActualizado });
+        enviarRespuesta(res, { msg: "ok", data: usuarioActualizado });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo actualizar el registro
         enviarRespuesta(res, { msg: "Error al actualizar registro", error: error.message });
@@ -133,7 +133,7 @@ exports.deleteUsuarios = async (req, res) => {
         await modeloUsuario.destroy({ where: { usuariosID: req.params.id } });
 
         // Enviar respuesta con el usuario eliminado
-        enviarRespuesta(res, { msg: "Registro eliminado correctamente", data: usuario });
+        enviarRespuesta(res, { msg: "ok", data: usuario });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo eliminar el registro
         enviarRespuesta(res, { msg: "Error al eliminar registro", error: error.message });

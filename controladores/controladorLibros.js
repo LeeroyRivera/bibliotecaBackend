@@ -34,7 +34,7 @@ exports.postLibros = async (req, res) => {
         // Crea un nuevo Libro con los datos del formulario
         const data = await modeloLibros.create(req.body);
         // Enviar respuesta con el Libros creado
-        enviarRespuesta(res, { msg: "Registro guardado correctamente", data });
+        enviarRespuesta(res, { msg: "ok", data });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo guardar el registro
         enviarRespuesta(res, { msg: "Error al guardar registro", error: error.message });
@@ -65,7 +65,7 @@ exports.putLibros = async (req, res) => {
         });
 
         // Enviar respuesta con el Libros actualizado
-        enviarRespuesta(res, { msg: "Registro actualizado correctamente", data: LibrosActualizado });
+        enviarRespuesta(res, { msg: "ok", data: LibrosActualizado });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo actualizar el registro
         enviarRespuesta(res, { msg: "Error al actualizar registro", error: error.message });
@@ -90,7 +90,7 @@ exports.deleteLibros = async (req, res) => {
         await modeloLibros.destroy({ where: { librosID: req.params.id } });
 
         // Enviar respuesta con el Libros eliminado
-        enviarRespuesta(res, { msg: "Registro eliminado correctamente", data: Libros });
+        enviarRespuesta(res, { msg: "ok", data: Libros });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo eliminar el registro
         enviarRespuesta(res, { msg: "Error al eliminar registro", error: error.message });

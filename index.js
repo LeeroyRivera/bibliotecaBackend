@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const db = require('./db');
+const cors = require('cors');
 const app = express();
 
 const controladorUsuarios = require('./controladores/controladorUsuarios');
@@ -14,6 +15,7 @@ const { prestamoValidaciones } = require('./validaciones/prestamoValidaciones');
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cors());
 
 db.sync().then(() => {
   console.log('Base de datos sincronizada');
@@ -35,7 +37,7 @@ app.get('/usuarios/:id', async (req, res) => {
   await controladorUsuarios.getUsuariosID(req, res);
 });
 
-app.get('/usuarios/:correo/:contra', async (req, res) => {
+app.post('/usuarios/login', async (req, res) => {
   await controladorUsuarios.getUsuariosLogin(req, res);
 });
 

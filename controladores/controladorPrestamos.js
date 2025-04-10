@@ -36,7 +36,7 @@ exports.postPrestamos = async (req, res) => {
         // Crea un nuevo prestamo con los datos del formulario
         const data = await modeloPrestamos.create(req.body);
         // Enviar respuesta con el prestamo creado
-        enviarRespuesta(res, { msg: "Registro guardado correctamente", data });
+        enviarRespuesta(res, { msg: "ok", data });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo guardar el registro
         enviarRespuesta(res, { msg: "Error al guardar registro", error: error.message });
@@ -67,7 +67,7 @@ exports.putPrestamos = async (req, res) => {
         });
 
         // Enviar respuesta con el Prestamos actualizado
-        enviarRespuesta(res, { msg: "Registro actualizado correctamente", data: PrestamosActualizado });
+        enviarRespuesta(res, { msg: "ok", data: PrestamosActualizado });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo actualizar el registro
         enviarRespuesta(res, { msg: "Error al actualizar registro", error: error.message });
@@ -92,7 +92,7 @@ exports.deletePrestamos = async (req, res) => {
         await modeloPrestamos.destroy({ where: { prestamosID: req.params.id } });
 
         // Enviar respuesta con el Prestamos eliminado
-        enviarRespuesta(res, { msg: "Registro eliminado correctamente", data: Prestamos });
+        enviarRespuesta(res, { msg: "ok", data: Prestamos });
     } catch (error) {
         // Enviar respuesta con el error si no se pudo eliminar el registro
         enviarRespuesta(res, { msg: "Error al eliminar registro", error: error.message });
