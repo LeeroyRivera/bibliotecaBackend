@@ -1,0 +1,30 @@
+# build files
+node_modules/
+*git.json
+*.env
+
+# temp files
+pids
+logs
+results
+npm-debug.log
+.sass-cache
+*-ck.js
+*.srt
+*.DS_Store
+lib-cov
+.idea/
+*.swp
+*.sublime-*
+.vscode/
+*.code-workspace
+*.bat
+*.db
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.iml
