@@ -13,6 +13,14 @@ const { prestamoValidaciones } = require('./validaciones/prestamoValidaciones');
 
 const port = process.env.PORT || 3000;
 
+app.use(express.json());
+
+db.sync().then(() => {
+  console.log('Base de datos sincronizada');
+}).catch((error) => {
+  console.log('Error al sincronizar la base de datos: ', error);
+});
+
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
